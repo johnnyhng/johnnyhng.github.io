@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f7f8f5"/>
+  <circle cx="900" cy="315" r="220" fill="#dff3e9"/>
+  <path d="M740 315c53-110 106-110 159 0s106 110 211 0" fill="none" stroke="#16624a" stroke-width="28" stroke-linecap="round"/>
+  <text x="90" y="270" font-family="system-ui,sans-serif" font-size="110" font-weight="750" fill="#18241f">ezTalk</text>
+  <text x="95" y="355" font-family="system-ui,sans-serif" font-size="38" fill="#5a6862">Your meaning. Your voice.</text>
+</svg>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://johnnyhng.github.io/eztalk/sitemap.xml
