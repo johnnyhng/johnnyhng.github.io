@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f3ed">
+  <meta name="description" content="ezTalk: an Android AAC engineering case study on on-device speech processing, AI-assisted expression, user autonomy, and privacy-conscious data boundaries.">
+  <title>ezTalk — Minimizing the cost of communication</title>
+  <meta property="og:title" content="ezTalk — Engineering case study">
+  <meta property="og:description" content="An Android AAC engineering case study on local speech processing, AI-assisted expression, and user autonomy.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://johnnyhng.github.io/work/eztalk/">
+  <link rel="canonical" href="https://johnnyhng.github.io/work/eztalk/">
+  <link rel="icon" href="../../eztalk/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header wrap">
+  <a class="wordmark" href="#overview" aria-label="ezTalk overview">ezTalk<span aria-hidden="true">.</span></a>
+  <nav aria-label="Case study sections">
+    <a href="#decisions">Decisions</a>
+    <a href="#contribution">My contribution</a>
+    <a href="#privacy">Privacy</a>
+  </nav>
+</header>
+<main id="main">
+  <section class="hero wrap" id="overview" aria-labelledby="hero-title">
+    <p class="portfolio-path"><a href="../">Selected work</a><span aria-hidden="true">/</span> Engineering case study</p>
+    <p class="eyebrow">Android · Applied AI · Assistive communication</p>
+    <h1 id="hero-title">Minimizing the cost<br class="desktop-break"> of <em>communication.</em></h1>
+    <div class="hero-bottom">
+      <p class="hero-description">ezTalk is an Android augmentative and alternative communication (AAC) app for people with dysarthria, combining on-device speech processing with AI-assisted expression.</p>
+      <a class="text-link" href="#decisions">Explore the engineering <span aria-hidden="true">↗</span></a>
+    </div>
+    <dl class="project-facts">
+      <div><dt>My work</dt><dd>Android app &amp; AI integration</dd></div>
+      <div><dt>Approach</dt><dd>On-device + cloud</dd></div>
+      <div><dt>Guiding principle</dt><dd>User autonomy first</dd></div>
+    </dl>
+  </section>
+
+  <section class="section wrap problem" aria-labelledby="problem-title">
+    <div class="section-label"><span class="section-number">01</span><p>The problem</p></div>
+    <div class="section-body">
+      <h2 id="problem-title">Recognition is one step.<br>Expression is the goal.</h2>
+      <p>A person may still need to repeat an utterance, repair a transcription, or assemble a complete response. These steps add effort when speaking or operating a phone is difficult.</p>
+      <p>ezTalk is designed to reduce that effort through different levels of assistance. The user stays involved in choosing what to say. The effect on everyday communication still needs longer-term evaluation.</p>
+    </div>
+  </section>
+
+  <section class="section wrap" aria-labelledby="modes-title">
+    <div class="section-label"><span class="section-number">02</span><p>Communication modes</p></div>
+    <div class="section-body">
+      <h2 id="modes-title">Different starting points.<br>The same right to choose.</h2>
+      <div class="modes">
+        <article class="mode"><span class="mode-mark" aria-hidden="true">↗</span><h3>Express</h3><p>Start with your own speech. Use recognition with optional assistance to revise or complete an expression.</p><p class="mode-note">Speech → expression</p></article>
+        <article class="mode"><span class="mode-mark" aria-hidden="true">＋</span><h3>Voice AAC</h3><p>Start with keywords and selected context. Review candidate sentences without needing a complete recognized utterance.</p><p class="mode-note">Short cues → candidates</p></article>
+        <article class="mode"><span class="mode-mark" aria-hidden="true">↔</span><h3>Reply</h3><p>Listen to a conversation partner, then review and choose a suggested response.</p><p class="mode-note">Partner speech → reply</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="decisions-band" id="decisions" aria-labelledby="decisions-title">
+    <div class="section wrap">
+      <div class="section-label"><span class="section-number">03</span><p>Engineering decisions</p></div>
+      <div class="section-body">
+        <p class="eyebrow">Constraints, choices &amp; tradeoffs</p>
+        <h2 id="decisions-title">Three choices that<br>shape the experience.</h2>
+        <article class="decision">
+          <span class="decision-index" aria-hidden="true">A</span>
+          <div><h3>Offer assistance without taking over the message.</h3>
+          <p>A fluent sentence may not reflect the intended meaning. The interaction offers candidate expressions that users can select or edit, while retaining a less assisted recognition path.</p>
+          <div class="tradeoff"><span>Tradeoff</span><p>A deliberate review step adds an action, but gives the user a way to reject generated wording. Semantic fidelity remains an evaluation priority.</p></div></div>
+        </article>
+        <article class="decision">
+          <span class="decision-index" aria-hidden="true">B</span>
+          <div><h3>Split speech processing and semantic assistance.</h3>
+          <p>On-device target speaker extraction, voice activity detection, and recognition are used where the mode needs them. Cloud-based Gemini supports expression completion and reply suggestions.</p>
+          <div class="tradeoff"><span>Tradeoff</span><p>Local inference uses mobile resources; cloud assistance depends on connectivity and the text or context sent for processing. Not every mode works fully offline.</p></div></div>
+        </article>
+        <figure class="architecture">
+          <figcaption><span class="eyebrow">System at a glance</span><strong>Local speech. Optional cloud assistance. User review.</strong></figcaption>
+          <div class="architecture-grid">
+            <div class="architecture-zone"><h4>On Android</h4><p>Speech input</p><span class="flow-arrow" aria-hidden="true">↓</span><p>Mode-dependent processing<br><small>TSE · VAD · ASR</small></p><span class="flow-arrow" aria-hidden="true">↓</span><p>Recognized text</p></div>
+            <div class="architecture-connector"><span aria-hidden="true">↔</span><p>Text &amp; selected context<br>Suggestions returned</p></div>
+            <div class="architecture-zone cloud"><h4>Cloud · when selected</h4><p>Gemini</p><span class="flow-arrow" aria-hidden="true">↓</span><p>Expression completion<br>or reply suggestions</p><p class="cue-note">Voice AAC can start here with short cues and context.</p></div>
+          </div>
+          <div class="review-path"><strong>Review text or candidates</strong><span aria-hidden="true">→</span><span>User selects or edits</span><span aria-hidden="true">→</span><span>Text / speech output</span></div>
+          <p class="figure-note">Conceptual architecture. Recognized text can also follow a direct path to user review when available. Processing varies by mode and configuration; Reply does not necessarily use target-user TSE. This is not a complete data-flow audit.</p>
+        </figure>
+        <article class="decision">
+          <span class="decision-index" aria-hidden="true">C</span>
+          <div><h3>Make conversation roles explicit.</h3>
+          <p>Reply distinguishes listening to a partner from expressing the user's own message. An explicit role switch provides a visible listening state before adding automatic speaker diarization.</p>
+          <div class="tradeoff"><span>Tradeoff</span><p>Manual switching adds an action. It keeps the role controllable and reuses the recording interaction without another automatic classification step. Usability needs further evaluation.</p></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" id="privacy" aria-labelledby="privacy-title">
+    <div class="section-label"><span class="section-number">04</span><p>Privacy &amp; security</p></div>
+    <div class="section-body">
+      <h2 id="privacy-title">Personal expression.<br>Thoughtful data boundaries.</h2>
+      <p>Communication can reveal personal needs, relationships, and daily routines. Privacy is a design priority in ezTalk, shaping where speech is processed, what context is used, and how supported data is synchronized.</p>
+      <dl class="ownership">
+        <div><dt>Local speech processing</dt><dd>On-device TSE, VAD, and ASR allow the selected speech-processing stages to run locally without requiring cloud audio processing for those stages.</dd></div>
+        <div><dt>Cloud boundaries</dt><dd>Cloud-assisted features send text and selected context to Gemini. Context components can be composed for the task, rather than including every piece of personal background. These features still involve external processing.</dd></div>
+        <div><dt>Encrypted sync</dt><dd>Supported sync flows encrypt data on the client before storage in Firestore. A passkey-protected recovery flow supports restoring access after reinstalling or changing devices, while avoiding a passkey prompt on every app launch.</dd></div>
+      </dl>
+      <p class="small-note">Protection has a defined scope: encrypted sync does not cover every local file or cloud AI request. Recovery after losing all available passkeys remains unresolved, and the security design still needs formal review.</p>
+    </div>
+  </section>
+
+  <section class="section wrap" id="contribution" aria-labelledby="contribution-title">
+    <div class="section-label"><span class="section-number">05</span><p>Contribution &amp; collaboration</p></div>
+    <div class="section-body">
+      <h2 id="contribution-title">Connecting models<br>to a usable Android app.</h2>
+      <p>My work focuses on Android application development, communication workflows, speech-model deployment research and integration, and the interaction between speech input, AI suggestions, and spoken output.</p>
+      <dl class="ownership">
+        <div><dt>My contribution</dt><dd>Android app and communication workflows; Personal ASR deployment research and model integration.</dd></div>
+        <div><dt>Model collaborator</dt><dd>Fine-tuning of the open-source speech model used in Personal ASR.</dd></div>
+        <div><dt>Backend collaborators</dt><dd>Backend maintenance and scheduled training.</dd></div>
+      </dl>
+      <p class="small-note">Personal ASR is collaborative. Android integration, model fine-tuning, and backend work are distinct contributions.</p>
+    </div>
+  </section>
+
+  <section class="section wrap" id="workflow" aria-labelledby="workflow-title">
+    <div class="section-label"><span class="section-number">06</span><p>A communication turn</p></div>
+    <div class="section-body">
+      <h2 id="workflow-title">From input to<br>a chosen expression.</h2>
+      <p>Reply adds a partner-listening step before candidate generation. Across the assisted interaction, the user reviews the wording and decides what to communicate.</p>
+      <ol class="turn-steps"><li><span>01</span>Provide speech<br>or keywords</li><li><span>02</span>Review candidate<br>wording</li><li><span>03</span>Select or edit<br>an expression</li><li><span>04</span>Play the chosen<br>message aloud</li></ol>
+      <aside class="limitations" aria-labelledby="limits-title"><h3 id="limits-title">Current limits &amp; evaluation</h3><ul><li>Target-speaker extraction can still admit loud, continuous background speech.</li><li>Cloud-assisted expression depends on network availability, and generated wording can misinterpret intent.</li><li>The modes run on real Android hardware, as reported during development. Communication benefit, accessibility outcomes, and performance improvements require further evaluation.</li></ul></aside>
+    </div>
+  </section>
+</main>
+<footer class="site-footer wrap"><a class="wordmark" href="#overview" aria-label="Back to ezTalk overview">ezTalk<span aria-hidden="true">.</span></a><p>Android &amp; applied AI · Engineering case study</p><div class="footer-actions"><a href="../">All selected work</a><a href="#overview">Back to top <span aria-hidden="true">↑</span></a></div></footer>
+</body>
+</html>

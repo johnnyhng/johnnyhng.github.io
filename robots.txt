@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://johnnyhng.github.io/eztalk/sitemap.xml
+Sitemap: https://johnnyhng.github.io/sitemap.xml
 
