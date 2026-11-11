@@ -103,13 +103,17 @@
     <div class="section-label"><span class="section-number">04</span><p>Privacy &amp; security</p></div>
     <div class="section-body">
       <h2 id="privacy-title">Personal expression.<br>Thoughtful data boundaries.</h2>
-      <p>Communication can reveal personal needs, relationships, and daily routines. Privacy is a design priority in ezTalk, shaping where speech is processed, what context is used, and how supported data is synchronized.</p>
-      <dl class="ownership">
-        <div><dt>Local speech processing</dt><dd>On-device TSE, VAD, and ASR allow the selected speech-processing stages to run locally without requiring cloud audio processing for those stages.</dd></div>
-        <div><dt>Cloud boundaries</dt><dd>Cloud-assisted features send text and selected context to Gemini. Context components can be composed for the task, rather than including every piece of personal background. These features still involve external processing.</dd></div>
-        <div><dt>Encrypted sync</dt><dd>Supported sync flows encrypt data on the client before storage in Firestore. A passkey-protected recovery flow supports restoring access after reinstalling or changing devices, while avoiding a passkey prompt on every app launch.</dd></div>
-      </dl>
-      <p class="small-note">Protection has a defined scope: encrypted sync does not cover every local file or cloud AI request. Recovery after losing all available passkeys remains unresolved, and the security design still needs formal review.</p>
+      <p>Privacy shapes where speech is processed and how supported data is synchronized. Speech processing runs locally where appropriate; Gemini text/context requests cross a separate cloud boundary.</p>
+      <figure class="sync-diagram" aria-labelledby="sync-caption">
+        <figcaption id="sync-caption">Supported encrypted sync &amp; cross-device recovery</figcaption>
+        <ol class="sync-steps">
+          <li><span class="sync-stage">01 · Original device</span><span>Encrypt supported data locally</span></li>
+          <li><span class="sync-stage">02 · Firestore</span><span>Store encrypted records</span></li>
+          <li><span class="sync-stage">03 · New device</span><span>Recover key through passkey-protected access</span></li>
+          <li><span class="sync-stage">04 · New device</span><span>Decrypt downloaded records locally</span></li>
+        </ol>
+      </figure>
+      <p>Supported sync encrypts locally before Firestore storage. Passkey-protected key recovery lets another device decrypt downloaded records locally. This protection does not cover all local files or cloud AI requests. Recovery after loss of all passkeys remains unresolved; formal security review is still needed.</p>
     </div>
   </section>
 
@@ -119,11 +123,21 @@
       <h2 id="contribution-title">Connecting models<br>to a usable Android app.</h2>
       <p>My work focuses on Android application development, communication workflows, speech-model deployment research and integration, and the interaction between speech input, AI suggestions, and spoken output.</p>
       <dl class="ownership">
-        <div><dt>My contribution</dt><dd>Android app and communication workflows; Personal ASR deployment research and model integration.</dd></div>
+        <div><dt>My contribution</dt><dd>Android app and communication workflows; inference integration, deployment research, and ASR/TSE update mechanisms.</dd></div>
         <div><dt>Model collaborator</dt><dd>Fine-tuning of the open-source speech model used in Personal ASR.</dd></div>
         <div><dt>Backend collaborators</dt><dd>Backend maintenance and scheduled training.</dd></div>
       </dl>
       <p class="small-note">Personal ASR is collaborative. Android integration, model fine-tuning, and backend work are distinct contributions.</p>
+      <aside class="evidence-callout" aria-labelledby="ml-title">
+        <h3 id="ml-title">On-device ML delivery</h3>
+        <p>My Android work connects streaming audio and native inference with communication workflows, including integration of personalized ASR. A collaborator fine-tunes the open-source model; other collaborators maintain the backend and scheduled training. I own Android inference integration, deployment research, and the relevant update mechanisms. ASR/TSE update availability uses client/server SHA-256 comparisons, with users able to update or skip. This keeps delivery practical while preserving user control. Hash comparison detects content differences; it does not establish signed model authenticity. On-device inference also needs device-level evaluation of latency, memory, and long-session behavior.</p>
+      </aside>
+      <p class="small-note">I independently migrated the open-source Project VOICE from web to Android, integrated enhancements, and received testing feedback. This contribution is specific to the Android migration, not ownership of the upstream project. <a href="https://github.com/google/project-voice/tree/zh-tw-impl">View my Traditional Chinese contribution branch</a>.</p>
+      <div class="engineering-method" id="engineering-method" aria-labelledby="method-title">
+        <h3 id="method-title">Human-Led, AI-Assisted Engineering</h3>
+        <p>I start by defining the problem, desired outcome, and constraints. I use AI coding tools to explore possible solutions and clarify technical trade-offs, then make the architectural and implementation decisions myself. Execution varies by task; I do not use a fixed autonomous-agent pipeline. The emphasis is on explicit decisions and reviewable changes.</p>
+        <p>Two explicit expectations guide AI-assisted implementation: test-driven development practices and branch walkthrough documentation. Tests are intended to make expected behavior reviewable, while branch walkthroughs explain what changed, why, the affected components, and any unresolved issues. I remain responsible for evaluating whether the result solves the original problem and is maintainable.</p>
+      </div>
     </div>
   </section>
 
@@ -133,6 +147,7 @@
       <h2 id="workflow-title">From input to<br>a chosen expression.</h2>
       <p>Reply adds a partner-listening step before candidate generation. Across the assisted interaction, the user reviews the wording and decides what to communicate.</p>
       <ol class="turn-steps"><li><span>01</span>Provide speech<br>or keywords</li><li><span>02</span>Review candidate<br>wording</li><li><span>03</span>Select or edit<br>an expression</li><li><span>04</span>Play the chosen<br>message aloud</li></ol>
+      <!-- Media insertion points: authentic TSE noisy-speech demo and Voice AAC/Reply demo. Add only verified URLs and sanitized media. -->
       <aside class="limitations" aria-labelledby="limits-title"><h3 id="limits-title">Current limits &amp; evaluation</h3><ul><li>Target-speaker extraction can still admit loud, continuous background speech.</li><li>Cloud-assisted expression depends on network availability, and generated wording can misinterpret intent.</li><li>The modes run on real Android hardware, as reported during development. Communication benefit, accessibility outcomes, and performance improvements require further evaluation.</li></ul></aside>
     </div>
   </section>
