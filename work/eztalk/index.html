@@ -45,7 +45,7 @@
     <div class="section-body">
       <h2 id="problem-title">Recognition is one step.<br>Expression is the goal.</h2>
       <p>A person may still need to repeat an utterance, repair a transcription, or assemble a complete response. These steps add effort when speaking or operating a phone is difficult.</p>
-      <p>ezTalk is designed to reduce that effort through different levels of assistance. The user stays involved in choosing what to say. The effect on everyday communication still needs longer-term evaluation.</p>
+      <p>ezTalk is designed to reduce that effort through different levels of assistance. The user stays involved in choosing what to say.</p>
     </div>
   </section>
 
@@ -57,6 +57,10 @@
         <article class="mode"><span class="mode-mark" aria-hidden="true">↗</span><h3>Express</h3><p>Start with your own speech. Use recognition with optional assistance to revise or complete an expression.</p><p class="mode-note">Speech → expression</p></article>
         <article class="mode"><span class="mode-mark" aria-hidden="true">＋</span><h3>Voice AAC</h3><p>Start with keywords and selected context. Review candidate sentences without needing a complete recognized utterance.</p><p class="mode-note">Short cues → candidates</p></article>
         <article class="mode"><span class="mode-mark" aria-hidden="true">↔</span><h3>Reply</h3><p>Listen to a conversation partner, then review and choose a suggested response.</p><p class="mode-note">Partner speech → reply</p></article>
+      </div>
+      <div class="engineering-method" aria-labelledby="context-title">
+        <h3 id="context-title">Context-aware communication</h3>
+        <p>ezTalk combines relevant personas, scenarios, conversation history, and keywords according to the communication workflow and user-selected context. The composition can vary between expressing an idea and preparing a reply. Suggested wording remains editable, and the user chooses the final message.</p>
       </div>
     </div>
   </section>
@@ -71,7 +75,7 @@
           <span class="decision-index" aria-hidden="true">A</span>
           <div><h3>Offer assistance without taking over the message.</h3>
           <p>A fluent sentence may not reflect the intended meaning. The interaction offers candidate expressions that users can select or edit, while retaining a less assisted recognition path.</p>
-          <div class="tradeoff"><span>Tradeoff</span><p>A deliberate review step adds an action, but gives the user a way to reject generated wording. Semantic fidelity remains an evaluation priority.</p></div></div>
+          <div class="tradeoff"><span>Tradeoff</span><p>A deliberate review step adds an action, but gives the user a way to reject generated wording.</p></div></div>
         </article>
         <article class="decision">
           <span class="decision-index" aria-hidden="true">B</span>
@@ -93,7 +97,7 @@
           <span class="decision-index" aria-hidden="true">C</span>
           <div><h3>Make conversation roles explicit.</h3>
           <p>Reply distinguishes listening to a partner from expressing the user's own message. An explicit role switch provides a visible listening state before adding automatic speaker diarization.</p>
-          <div class="tradeoff"><span>Tradeoff</span><p>Manual switching adds an action. It keeps the role controllable and reuses the recording interaction without another automatic classification step. Usability needs further evaluation.</p></div></div>
+          <div class="tradeoff"><span>Tradeoff</span><p>Manual switching adds an action. It keeps the role controllable and reuses the recording interaction without another automatic classification step.</p></div></div>
         </article>
       </div>
     </div>
@@ -109,11 +113,11 @@
         <ol class="sync-steps">
           <li><span class="sync-stage">01 · Original device</span><span>Encrypt supported data locally</span></li>
           <li><span class="sync-stage">02 · Firestore</span><span>Store encrypted records</span></li>
-          <li><span class="sync-stage">03 · New device</span><span>Recover key through passkey-protected access</span></li>
+          <li><span class="sync-stage">03 · New device</span><span>Use an available passkey to recover key access</span></li>
           <li><span class="sync-stage">04 · New device</span><span>Decrypt downloaded records locally</span></li>
         </ol>
       </figure>
-      <p>Supported sync encrypts locally before Firestore storage. Passkey-protected key recovery lets another device decrypt downloaded records locally. This protection does not cover all local files or cloud AI requests. Recovery after loss of all passkeys remains unresolved; formal security review is still needed.</p>
+      <p>Supported sync encrypts locally before Firestore storage. Passkey-protected key recovery lets another device decrypt downloaded records locally, provided an available passkey can be used. This protection does not cover all local files or cloud AI requests. Recovery after losing all available passkeys is not yet implemented.</p>
     </div>
   </section>
 
@@ -127,16 +131,15 @@
         <div><dt>Model collaborator</dt><dd>Fine-tuning of the open-source speech model used in Personal ASR.</dd></div>
         <div><dt>Backend collaborators</dt><dd>Backend maintenance and scheduled training.</dd></div>
       </dl>
-      <p class="small-note">Personal ASR is collaborative. Android integration, model fine-tuning, and backend work are distinct contributions.</p>
       <aside class="evidence-callout" aria-labelledby="ml-title">
         <h3 id="ml-title">On-device ML delivery</h3>
-        <p>My Android work connects streaming audio and native inference with communication workflows, including integration of personalized ASR. A collaborator fine-tunes the open-source model; other collaborators maintain the backend and scheduled training. I own Android inference integration, deployment research, and the relevant update mechanisms. ASR/TSE update availability uses client/server SHA-256 comparisons, with users able to update or skip. This keeps delivery practical while preserving user control. Hash comparison detects content differences; it does not establish signed model authenticity. On-device inference also needs device-level evaluation of latency, memory, and long-session behavior.</p>
+        <p>On Android, I integrate streaming audio and native inference into communication workflows, including personalized ASR. ASR/TSE update availability uses client/server SHA-256 comparisons, and users can update or skip. Model delivery must account for runtime assets, native-library compatibility, and recording lifecycle. Content-hash comparison identifies model changes; it does not establish signed authenticity.</p>
       </aside>
       <p class="small-note">I independently migrated the open-source Project VOICE from web to Android, integrated enhancements, and received testing feedback. This contribution is specific to the Android migration, not ownership of the upstream project. <a href="https://github.com/google/project-voice/tree/zh-tw-impl">View my Traditional Chinese contribution branch</a>.</p>
       <div class="engineering-method" id="engineering-method" aria-labelledby="method-title">
         <h3 id="method-title">Human-Led, AI-Assisted Engineering</h3>
-        <p>I start by defining the problem, desired outcome, and constraints. I use AI coding tools to explore possible solutions and clarify technical trade-offs, then make the architectural and implementation decisions myself. Execution varies by task; I do not use a fixed autonomous-agent pipeline. The emphasis is on explicit decisions and reviewable changes.</p>
-        <p>Two explicit expectations guide AI-assisted implementation: test-driven development practices and branch walkthrough documentation. Tests are intended to make expected behavior reviewable, while branch walkthroughs explain what changed, why, the affected components, and any unresolved issues. I remain responsible for evaluating whether the result solves the original problem and is maintainable.</p>
+        <p>I define the problem, desired outcome, and constraints. I use AI coding tools to explore alternatives, discuss trade-offs, and support implementation, then make the architectural and implementation decisions myself. The workflow varies by task; I remain responsible for the result and its maintainability.</p>
+        <p>I set expectations for test-first development, regression checks, and branch walkthrough documentation. Tests make intended behavior reviewable; walkthroughs record what changed, why, the affected components, validation results, and unresolved issues. These are engineering expectations, not a claim that every change followed strict TDD.</p>
       </div>
     </div>
   </section>
@@ -148,7 +151,7 @@
       <p>Reply adds a partner-listening step before candidate generation. Across the assisted interaction, the user reviews the wording and decides what to communicate.</p>
       <ol class="turn-steps"><li><span>01</span>Provide speech<br>or keywords</li><li><span>02</span>Review candidate<br>wording</li><li><span>03</span>Select or edit<br>an expression</li><li><span>04</span>Play the chosen<br>message aloud</li></ol>
       <!-- Media insertion points: authentic TSE noisy-speech demo and Voice AAC/Reply demo. Add only verified URLs and sanitized media. -->
-      <aside class="limitations" aria-labelledby="limits-title"><h3 id="limits-title">Current limits &amp; evaluation</h3><ul><li>Target-speaker extraction can still admit loud, continuous background speech.</li><li>Cloud-assisted expression depends on network availability, and generated wording can misinterpret intent.</li><li>The modes run on real Android hardware, as reported during development. Communication benefit, accessibility outcomes, and performance improvements require further evaluation.</li></ul></aside>
+      <aside class="limitations" aria-labelledby="limits-title"><h3 id="limits-title">Current limits &amp; evaluation</h3><ul><li>Target-speaker extraction can still admit loud, continuous background speech.</li><li>Cloud-assisted expression depends on network availability, and generated wording can misinterpret intent.</li><li>The modes run on real Android hardware, as reported during development. Everyday usability, semantic fidelity, communication benefit, and device performance require further evaluation. The security design still needs formal review.</li></ul></aside>
     </div>
   </section>
 </main>
